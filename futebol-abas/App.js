@@ -1,11 +1,8 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-{/*import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,} from 'react-native';*/}
 import { PaperProvider} from 'react-native-paper'
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import EscudoScreen from './screens/EscudoScreen';
-{/*import ProfileScreen from './screens/ProfileScreen'
-import SettingsScreen from './screens/SettingsScreen'*/}
 import {Ionicons} from '@expo/vector-icons'
 import JogadoresScreen from './screens/JogadoresScreen';
 import TitulosScreen from './screens/TitulosScreen';

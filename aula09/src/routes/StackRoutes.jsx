@@ -10,6 +10,9 @@ const Stack = createStackNavigator()
 export default function StackRoutes() {
   return (
             <Stack.Navigator>
+
+                <Stack.Screen name="ListaScreen" component={ListaScreen}/>
+                <Stack.Screen name="ItemScreen" component={ItemScreen}/>
                 <Stack.Screen 
                     name="HomeScreen"
                     component={HomeScreen}

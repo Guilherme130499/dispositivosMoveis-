@@ -11,7 +11,7 @@ export default function Controle() {
     }
 
     function diminuir() {
-        setVolume(volume + 1)
+        setVolume(volume - 1)
     }
   
     return (

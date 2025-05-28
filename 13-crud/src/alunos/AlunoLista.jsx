@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Card } from 'react-native'
 import React, { useState } from 'react'
 import { Button } from 'react-native'
-import AlunosForm from './AlunosForm'
+import AlunosForm from '../alunos/AlunosForm'
 import { FlatList } from 'react-native'
 
 export default function AlunoLista({ navigation, route}) {

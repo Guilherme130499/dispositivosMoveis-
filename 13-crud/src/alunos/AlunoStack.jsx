@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 
-import AlunoForm from './AlunoForm'
+import AlunoForm from '../alunos/AlunosForm'
 import AlunoLista from './AlunoLista'
 
 const Stack = createStackNavigator()

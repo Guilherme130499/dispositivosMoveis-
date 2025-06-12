@@ -1,8 +1,12 @@
 import { StyleSheet, View, ScrollView } from 'react-native'
-import { Card, Text, Title } from 'react-native-paper'
+import { Card, Text, Title, Button } from 'react-native-paper'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
-export default function Veiculos() {
+export default function Veiculos( {navigation} ) {
+
+ 
+
   return (
     <ScrollView>
     <View>
@@ -11,6 +15,11 @@ export default function Veiculos() {
             <Text style={{ textAlign: 'center'}}>Aloooooooooooooooooooooooooo</Text>
             <Title style={{ textAlign: 'center'}}>Aloooooooooooooooooooooooooooooooooooooooooooooo</Title>
         </Card.Content>
+        <Button
+        title="Ir para Agendamentos"
+        onPress={() => navigation.navigate('Agendamentos')}
+        style={{ margin: 10 }}
+      />
     </Card>
     </View>
     </ScrollView>

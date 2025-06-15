@@ -1,25 +1,30 @@
+
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-paper'
-import Cadastro from './Cadastro'
 
-export default function Agendamentos(props) {
+export default function HomeScreen({ navigation, route}) {
 
-  const { navigation, route } = props
-
-  console.log("NAVIGATION => ", navigation)
-
-  console.log("ROUTE => ", route)
-  
   return (
     <View>
-      <Text>Agendamentos</Text>
+      <Text>Início</Text>
+
       <Button
-        mode="contained"
-    onPress={() => navigation.navigate('HomeTabs', { screen: 'Cadastro' })}
+        mode='contained'
+        onPress={() => navigation.openDrawer() }
       >
-  Ir para tela Cadastro
-</Button>
+        Abrir gaveta
+      </Button>
+
+      <Button
+        mode='contained-tonal'
+        onPress={ () => {
+          navigation.openDrawer()
+          setTimeout(() => navigation.closeDrawer(), 3000)
+        }}
+      >
+        Abrir gaveta e fechar automatico
+      </Button>
 
     </View>
   )

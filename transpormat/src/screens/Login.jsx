@@ -1,76 +1,90 @@
 import { StyleSheet, View } from 'react-native'
 import { Text, Button, TextInput, Title } from 'react-native-paper'
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Login() {
-  const navigation = useNavigation() //alterna entre telas
+  const navigation = useNavigation()
 
-  const [email, setEmail] = useState(''); // começando com o campo vazio e armazenando o que for digitado
-  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
 
-  const acessoLogin = async () => { //logica para validar que os campos foram preenchidos, sendo verdadeiro direciona para outra tela  
-
+  const acessoLogin = async () => {
     if (!email || !senha) {
-      alert('Por favor, preencha todos os campos.');
-      return;
+      alert('Por favor, preencha todos os campos.')
+      return
     }
 
-    const motoristaSalvo = await AsyncStorage.getItem('motorista');
-    if (!motoristaSalvo) {
-      alert('Usuário não cadastrado!');
-      return;
+    try { //Recupera dados dos motoristas e usuários salvos no armazenamento local.
+      const motoristasSalvos = await AsyncStorage.getItem('motoristas')
+      const usuariosSalvos = await AsyncStorage.getItem('usuarios')
+
+      const motoristas = motoristasSalvos ? JSON.parse(motoristasSalvos) : []//Converte as strings recuperadas para arrays JSON (ou vazios, se não houver dados).
+      const usuarios = usuariosSalvos ? JSON.parse(usuariosSalvos) : []
+
+      
+      const motoristaEncontrado = motoristas.find( //Busca um motorista cujo email e senha correspondam aos digitados (email ignorando letras maiúsculas).
+        m => m.email.toLowerCase() === email.toLowerCase() && m.senha === senha
+      )
+
+      if (motoristaEncontrado) { {/*Se for encontrado, salva no AsyncStorage como usuarioLogado, exibe mensagem de sucesso e navega para a tela Agendamentos.*/}
+        await AsyncStorage.setItem('usuarioLogado', JSON.stringify(motoristaEncontrado))
+        alert('Login como motorista realizado com sucesso!')
+        navigation.navigate('Agendamentos')
+        return
+      }
+
+ 
+      const usuarioEncontrado = usuarios.find( //Se não for motorista, busca agora entre os usuários.
+        u => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha
+      )
+
+      if (usuarioEncontrado) {//Se encontrado, executa o mesmo processo do motorista.
+        await AsyncStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado))
+        alert('Login como usuário realizado com sucesso!')
+        navigation.navigate('Agendamentos')
+        return
+      }
+
+      
+      alert('Email ou senha incorretos')// Se não encontrar em nenhum dos dois
+
+    } catch (error) {
+      alert('Erro ao acessar os dados.')
+      console.log(error)
     }
-    const motorista = motoristaSalvo ? JSON.parse(motoristaSalvo) : null
+  }
 
-    if (motorista.email === email && motorista.senha === senha) {
-      alert('Login bem-sucedido!');
-      navigation.navigate('Agendamentos'); // // Se todas as validações passaram, navega para Agendamentos
-    } else {
-      alert('Email ou senha incorretos');
-    }
-  };
-
-  //const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; falta validar essa variavel para receber apenas type gmail
-
-
-  return ( //aqui começamos a parte visual
+  return (
     <View style={styles.container}>
       <Title style={styles.title}> Login </Title>
 
       <TextInput
         label="Email"
         value={email}
-        onChangeText={setEmail} //atualiza o estado com o que for digitado
-        keyboardType='email-address' //ativa o teclado com @ e .
-        autoCapitalize='none' //evita que a primeira letra seja maiuscula  
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        style={styles.input}
       />
 
       <TextInput
         label="Senha"
         value={senha}
         onChangeText={setSenha}
-        secureTextEntry //oculta caracteres
+        secureTextEntry
+        style={styles.input}
       />
 
-      <Button
-        mode='contained' //botão com fundo preenchido
-        onPress={acessoLogin}
-      >
+      <Button mode="contained" onPress={acessoLogin}>
         Entrar
       </Button>
 
-      <Button
-        mode="outlined"
-        onPress={() => navigation.navigate('Cadastro')}
-      >
+      <Button mode="outlined" onPress={() => navigation.navigate('Cadastro')}>
         Criar conta
       </Button>
-
     </View>
-
   )
 }
 
@@ -78,10 +92,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
     textAlign: 'center',
     marginBottom: 20,
-  }
+  },
+  input: {
+    marginBottom: 10,
+  },
 })

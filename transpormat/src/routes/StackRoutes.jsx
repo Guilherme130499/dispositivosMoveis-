@@ -2,12 +2,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Veiculos from '../screens/Veiculos';
 import Cadastro from '../screens/Cadastro';
 import Login from '../screens/Login';
 import Agendamentos from '../screens/Agendamentos';
 import CadastroMotorista from '../screens/CadastroMotorista';
 import CadastroUsuario from '../screens/CadastroUsuario'
+//import DrawerRoutes from './DrawerRoutes';
 
 
 
@@ -54,25 +54,22 @@ export default function StackRoutes() {
           title: 'Cadastro de Usuário',
           headerTitleAlign: 'center'
         }}
-      />
-
-      <Stack.Screen //trazendo a tela Veiculos para dentro de stackRoutes
-        name="Veiculos"
-        component={Veiculos}
-        options={{
-          title: 'Veiculos',
-          headerTitleAlign: 'center'
-        }}
-      />
+      />      
 
       <Stack.Screen //trazendo a tela Agendamentos para dentro de stackRoutes
         name="Agendamentos"
         component={Agendamentos}
         options={{
           title: 'Tela de Agendamentos',
-          headerTitleAlign: 'center',
+          headerTitleAlign: 'center',          
         }}
       />
+
+      {/*<Stack.Screen 
+        name='DrawerRoutes'
+        component={DrawerRoutes} 
+        options={{headerShown: false}}       
+      />*/}
     </Stack.Navigator>
   );
 }

@@ -1,70 +1,129 @@
-import { StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
-import { Text, TextInput, Button } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, FlatList, Alert } from 'react-native';
+import { Text, TextInput, Button, Card, Title } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text';
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CadastroUsuario() {
-  const navigation = useNavigation();
+  const [usuarios, setUsuarios] = useState([]);
 
-  console.log(' CadastroUsuario carregada');
-
-  const [nome, setNome] = useState(''); //Armazenando o que for digitado para salver e atualizar seu estado
+  const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [datanascimento, setDatanascimento] = useState('');
+  const [editandoId, setEditandoId] = useState(null);
 
+  useEffect(() => {
+    carregarUsuarios();
+  }, []);
 
-  const camposCadastrar = async () => {
-      console.log('Cadastro em andamento...');
-      
-    if (!nome || !cpf || !telefone || !email ||!senha) {
-      alert('Por favor, preencha todos os campos');
+  async function carregarUsuarios() {
+    try {
+      const data = await AsyncStorage.getItem('usuarios');
+      const lista = data ? JSON.parse(data) : [];
+      setUsuarios(lista);
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar os usuários');
+    }
+  }
+
+  async function salvarUsuarios(listaAtualizada) {
+    try {
+      await AsyncStorage.setItem('usuarios', JSON.stringify(listaAtualizada));
+      setUsuarios(listaAtualizada);
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível salvar os usuários');
+    }
+  }
+
+  const salvarUsuario = async () => {
+    if (!nome || !cpf || !telefone || !email || !senha) {
+      Alert.alert('Atenção', 'Preencha todos os campos');
       return;
     }
 
-    const usuarioSalvo = await AsyncStorage.getItem('usuario');
-    if (usuarioSalvo) {
-      const usuario = JSON.parse(usuarioSalvo);
-      if (usuario.email === email) {
-        alert('Este email já está cadastrado.');
-        return;
-      }
+    if (editandoId !== null) {
+      const listaAtualizada = usuarios.map(u =>
+        u.id === editandoId
+          ? { id: editandoId, nome, cpf, telefone, email, senha, datanascimento }
+          : u
+      );
+      await salvarUsuarios(listaAtualizada);
+      Alert.alert('Sucesso', 'Usuário atualizado com sucesso!');
+      limparFormulario();
+      return;
     }
 
-    const usuario = {
+    const emailExiste = usuarios.some(u => u.email === email);
+    if (emailExiste) {
+      Alert.alert('Erro', 'Este email já está cadastrado');
+      return;
+    }
+
+    const novoUsuario = {
+      id: Date.now().toString(),
       nome,
       cpf,
       telefone,
       email,
       senha,
       datanascimento,
-      cnh,
     };
-    try {
-      await AsyncStorage.setItem('usuario', JSON.stringify(usuario));
 
-    alert(`Usuário ${nome} cadastrado com sucesso!`);//Estando todos os campos cadastrados emite alerta de sucesso
-    setNome('');//Atualiza o estado do campo para vazio após o sucesso do cadastro para que seja feito um novo cadastro 
+    const listaAtualizada = [...usuarios, novoUsuario];
+    await salvarUsuarios(listaAtualizada);
+    Alert.alert('Sucesso', `Usuário ${nome} cadastrado!`);
+    limparFormulario();
+  };
+
+  const limparFormulario = () => {
+    setNome('');
     setCpf('');
     setTelefone('');
     setEmail('');
     setSenha('');
     setDatanascimento('');
-  }catch (error) {
-      alert('Erro ao salvar os dados')
-    };
+    setEditandoId(null);
+  };
+
+  const carregarParaEdicao = (usuario) => {
+    setNome(usuario.nome);
+    setCpf(usuario.cpf);
+    setTelefone(usuario.telefone);
+    setEmail(usuario.email);
+    setSenha(usuario.senha);
+    setDatanascimento(usuario.datanascimento);
+    setEditandoId(usuario.id);
+  };
+
+  const excluirUsuario = () => {
+    Alert.alert(
+      'Confirmar exclusão',
+      `Deseja excluir o usuário ${nome}?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            const listaAtualizada = usuarios.filter(u => u.id !== editandoId);
+            await salvarUsuarios(listaAtualizada);
+            Alert.alert('Sucesso', 'Usuário excluído');
+            limparFormulario();
+          }
+        }
+      ]
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cadastro de Usuário</Text>
+      <Title style={styles.title}>Cadastro de Usuário</Title>
 
       <TextInput
         label="Nome Completo"
-        placeholder='Informe o nome completo'
         value={nome}
         onChangeText={setNome}
         style={styles.input}
@@ -73,23 +132,16 @@ export default function CadastroUsuario() {
 
       <TextInput
         label="CPF"
-        placeholder='Informe o CPF'
         value={cpf}
         onChangeText={setCpf}
         style={styles.input}
         keyboardType="numeric"
         mode="outlined"
-        render={(props) => (
-          <TextInputMask
-            {...props}
-            type={'cpf'}
-          />
-        )}
+        render={(props) => <TextInputMask {...props} type={'cpf'} />}
       />
 
       <TextInput
         label="Telefone"
-        placeholder='Informe o Telefone'
         value={telefone}
         onChangeText={setTelefone}
         style={styles.input}
@@ -99,29 +151,32 @@ export default function CadastroUsuario() {
           <TextInputMask
             {...props}
             type={'cel-phone'}
-            options={{
-              maskType: 'BRL',
-              withDDD: true,
-              dddMask: '(99) '
-            }}
+            options={{ maskType: 'BRL', withDDD: true, dddMask: '(99) ' }}
           />
         )}
       />
 
       <TextInput
         label="Email"
-        placeholder='Informe o E-mail'
         value={email}
         onChangeText={setEmail}
         style={styles.input}
         keyboardType="email-address"
         mode="outlined"
-        autoCapitalize='none'
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        label="Senha"
+        value={senha}
+        onChangeText={setSenha}
+        style={styles.input}
+        mode="outlined"
+        secureTextEntry
       />
 
       <TextInput
         label="Data de Nascimento"
-        placeholder='Informe a Data'
         value={datanascimento}
         onChangeText={setDatanascimento}
         style={styles.input}
@@ -131,34 +186,63 @@ export default function CadastroUsuario() {
           <TextInputMask
             {...props}
             type={'datetime'}
-            options={{
-              format: 'DD/MM/YYYY'
-            }}
+            options={{ format: 'DD/MM/YYYY' }}
           />
         )}
       />
 
-      <Button 
-        mode='contained'
-        onPress={camposCadastrar}
-      >
-        Cadastrar
-      </Button>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 8 }}>
+        <Button mode="contained" onPress={salvarUsuario}>
+          {editandoId ? 'Atualizar' : 'Cadastrar'}
+        </Button>
 
+        {editandoId && (
+          <Button mode="outlined" onPress={excluirUsuario} color="red">
+            Excluir
+          </Button>
+        )}
+
+        <Button mode="text" onPress={limparFormulario}>
+          Limpar
+        </Button>
+      </View>
+
+      <Title style={{ marginTop: 15 }}>Usuários cadastrados:</Title>
+
+      {usuarios.length === 0 ? (
+        <Text>Nenhum usuário cadastrado.</Text>
+      ) : (
+        <FlatList
+          data={usuarios}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Card style={styles.card} onPress={() => carregarParaEdicao(item)}>
+              <Card.Content>
+                <Title>{item.nome}</Title>
+                <Text>Email: {item.email}</Text>
+                <Text>Telefone: {item.telefone}</Text>
+              </Card.Content>
+            </Card>
+          )}
+        />
+      )}
     </View>
   );
-}}
+}
 
 const styles = StyleSheet.create({
   container: {
+    padding: 20,
     flex: 1,
-    padding: 30,
-    justifyContent: 'center'
   },
   title: {
     textAlign: 'center',
+    marginBottom: 10,
   },
   input: {
-    marginBottom: 9,
-  }
-})
+    marginBottom: 10,
+  },
+  card: {
+    marginBottom: 8,
+  },
+});

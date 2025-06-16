@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Button } from 'react-native-paper' //importando componentes do React-native-paper
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'//Importando hook useNavigation, usado para navegar entre telas manualmente dentro de um componente.
 
 export default function Cadastro() {
-  const navigation = useNavigation();
+  const navigation = useNavigation();//Usando hook useNavigation para obter o objeto navigation, que permite navegar entre telas com navigate().
 
   return (
     <View style={styles.container}>

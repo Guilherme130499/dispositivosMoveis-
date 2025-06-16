@@ -1,24 +1,14 @@
-//import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { createDrawerNavigator } from '@react-navigation/drawer'
-import {} from '@expo/vector-icons'
+/*import React from 'react'
+import { createDrawerNavigator} from '@react-navigation/drawer'
 import Agendamentos from '../screens/Agendamentos'
-import { Drawer, Title } from 'react-native-paper'
 
-const drawer = createDrawerNavigator()
+const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes() {
   return (
-    <Drawer.Navigator>
-        <Drawer.Screen 
-            name='Agendamentos'
-            component={Agendamentos}
-            options={{
-                title: "Início"                
-            }}
-        />
+    <Drawer.Navigator initialRouteName='Agendamentos'>
+        <Drawer.Screen name='Agendamentos' component={Agendamentos}/>
     </Drawer.Navigator>
   )
-}
+}*/
 
-const styles = StyleSheet.create({})

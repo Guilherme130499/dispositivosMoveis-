@@ -1,0 +1,95 @@
+Anotações para aprendizado pessoal
+
+React: React é uma biblioteca JavaScript criada pelo Facebook para construir 
+interfaces de usuário (telas de aplicativos e sites) de forma rápida, organizada e reutilizável. 
+Ele divide a interface em componentes, como peças de LEGO, facilitando a criação e manutenção de projetos.
+
+React-Native: React Native é um framework que permite criar aplicativos móveis para Android e iOS usando JavaScript e React.
+
+react-Native-Paper: É uma biblioteca de componentes prontos no estilo Material Design para usar com React Native.
+
+createBottomTabNavigator: cria uma navegação por abas (tabs) na parte de baixo do app, permitindo trocar entre telas 
+facilmente.
+
+Tab.Navigator: é o container que organiza as abas.
+
+Tab.Screen: é cada tela (aba) dentro do Tab.Navigator.
+
+export default function: é usado para exportar uma função como principal de um arquivo, permitindo que ela seja importada em outros arquivos com qualquer nome.
+
+View: é um container no React Native que serve para agrupar e organizar outros elementos na tela. É como uma "div" no HTML.
+
+Button: é um componente que cria um botão clicável. Ao ser pressionado, executa uma função definida.
+
+hook: é uma função especial do React que permite usar recursos como estado (useState) e ciclo de vida (useEffect) em componentes funcionais.
+
+useNavigation: é um hook do React Navigation que permite acessar a navegação dentro de componentes funcionais para mudar de tela ou usar funções de navegação.
+
+React Navigation: é uma biblioteca para React Native que facilita criar e gerenciar a navegação entre telas (ou páginas) no app, como trocar de uma tela para outra, usar abas, menus deslizantes e pilhas de telas.
+
+FlatList: é um componente do React Native usado para exibir listas grandes de dados de forma eficiente, carregando apenas os itens que aparecem na tela para melhorar a performance.
+
+TextInput: é um componente React Native que permite o usuário digitar texto, como em formulários ou campos de busca.
+
+Card: é um componente visual do React Native Paper que serve para mostrar informações agrupadas dentro de um bloco com sombra e bordas, parecendo um “cartão”. É usado para destacar conteúdo, como textos, imagens e botões, de forma organizada e estilizada.
+
+TextInputMask: é um componente que permite criar campos de texto com máscara, ou seja, ele formata o que o usuário digita conforme um padrão definido, como CPF, telefone, data, entre outros, facilitando a digitação correta.
+
+AsyncStorage: é um jeito simples de salvar e ler dados no celular de forma persistente, tipo guardar informações mesmo depois do app ser fechado (banco de dados local).
+
+useState: é um hook do React que serve para criar e controlar variáveis (estados) dentro de um componente, permitindo que ele "lembre" valores e atualize a interface quando esses valores mudam.
+
+useEffect: é um hook do React usado para executar código em momentos específicos, como quando o componente aparece na tela, quando alguma variável muda, ou para limpar algo antes do componente sumir.
+
+async function: é uma função assíncrona em JavaScript, que permite usar await para esperar a resposta de operações que levam tempo, como buscar dados na internet, sem travar o programa.
+
+await: pausa a execução da função assíncrona até a promessa (Promise) ser resolvida, permitindo escrever código que espera o resultado de uma operação demorada de forma simples e sequencial.
+
+Promise: é um objeto em JavaScript que representa uma operação que pode terminar no futuro, com sucesso (resolvida) ou falha (rejeitada). Ela ajuda a lidar com tarefas assíncronas, como buscar dados.
+
+try: é um bloco de código onde você tenta executar algo que pode dar erro.
+
+catch: captura o erro se ele acontecer e permite tratar ou mostrar uma mensagem.
+
+JSON: é um formato leve de texto usado para armazenar e trocar dados de forma fácil entre sistemas.
+
+JSON.parse: é uma função que transforma uma string no formato JSON em um objeto JavaScript.
+
+JSON.stringify: transforma um objeto JavaScript em uma string JSON.
+
+.map: é um método em JavaScript usado para transformar cada item de uma lista (array) em outro valor, criando um novo array.
+
+.some: é um método de array que verifica se pelo menos um elemento do array atende a uma condição.
+
+Date.now: É usado para medir tempo ou criar valores únicos baseados no tempo.
+
+.toString: é um método que converte um número (ou outro tipo) em uma string (texto).
+
+.filter: é um método de array que cria um novo array contendo apenas os elementos que passam em uma condição que você definir.
+
+props são os "parâmetros" que você passa para um componente React para customizar o que ele mostra ou como funciona.
+
+secureTextEntry: é uma propriedade usada em TextInput no React Native para esconder o texto digitado, ideal para senhas.
+
+flexDirection: define a direção dos itens dentro de um container flexível no React Native.
+
+.length: é uma propriedade que indica o tamanho ou a quantidade de elementos de algo, como uma string ou um array.
+
+keyExtractor: é uma função usada em listas (FlatList ou SectionList) no React Native para informar uma chave única para cada item, ajudando o React a identificar e otimizar a renderização dos elementos.
+
+.get: é um método usado para “pegar” ou “buscar” algo.
+
+Dimensions: é uma API do React Native que serve para pegar as dimensões (largura e altura) da tela do dispositivo.
+
+.forEach: .forEach é um método que percorre todos os itens de um array e executa uma função para cada um deles.
+
+.values: é um método que retorna um iterador com os valores das propriedades de um objeto.
+
+.keys: é um método que retorna um array com as chaves (nomes das propriedades) de um objeto.
+
+PieChart: é um tipo de gráfico circular que mostra partes de um todo, como uma pizza dividida em fatias, cada fatia representa uma categoria com seu tamanho proporcional ao valor.
+
+chartConfig: é um objeto usado para configurar a aparência dos gráficos em bibliotecas como react-native-chart-kit. Ele define cores, estilos, transparências e outras propriedades visuais do gráfico.
+
+BarChart: é um gráfico de barras usado para mostrar comparações entre diferentes categorias, com barras verticais ou horizontais cujo comprimento representa o valor de cada categoria.
+

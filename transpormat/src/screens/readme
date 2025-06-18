@@ -93,3 +93,4 @@ chartConfig: é um objeto usado para configurar a aparência dos gráficos em bi
 
 BarChart: é um gráfico de barras usado para mostrar comparações entre diferentes categorias, com barras verticais ou horizontais cujo comprimento representa o valor de cada categoria.
 
+.find: percorrer o array e buscar
